@@ -82,6 +82,7 @@ class ImportScripts::UnClassNews < ImportScripts::Base
           location: user['location'],
           post_create_action: proc do |user|
             import_avatar(user,results)
+    	  end
         }
     end
   end
@@ -99,8 +100,6 @@ def import_avatar(user_object, user_table_query_results)
         avatar_name.to_s.empty? ? name = avatar_name : name = photo_name
         photo_name.to_s.empty?  ? return
         url += name
-
-        if 
 
         ## download avatar
         avatar_file = FileHelper.download(path)
@@ -200,13 +199,12 @@ end
           title: discussion['subject'].gsub('\\"', '"') + "** " + discussion['desc'] +" **\n",
           category: category_id_from_imported_category_id(discussion['category_id']),
           created_at: Time.zone.at(discussion['created_at']),
-          last_posted_at: Time.zone.at(discussion['updated_at'])
-          updated_at: Time.zone.at(discussion['updated_at'])
+          last_posted_at: Time.zone.at(discussion['updated_at']),
+          updated_at: Time.zone.at(discussion['updated_at']),
           views: discussion['views']
         }
       end
     end
-  end
 
 #########################################################################################################################################################
 
@@ -254,14 +252,13 @@ end
           updated_at: Time.zone.at(comment['updated_at']),
           edit_reason: comment['edit_reason'],
           user_id: user_id_from_imported_user_id(comment['user_id']) || Discourse::SYSTEM_USER_ID,
-          like_count: 
-          last_editor_id: comment['last_editor_id'],
+          like_count: 0,
+          #last_editor_id: comment['last_editor_id'],
           raw: clean_up(raw),
-          spam_count: comment['spam_count'],
+          spam_count: comment['spam_count']
         }
       end
     end
-  end
 
 #########################################################################################################################################################
 

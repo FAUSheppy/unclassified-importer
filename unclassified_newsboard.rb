@@ -66,7 +66,7 @@ class ImportScripts::UnClassNews < ImportScripts::Base
 
       create_users(results, total: total_count) do |user|
               if user['email'].blank?
-                puts "Some black dude had no mail, shoot him"
+                puts "No Mail for this user"
                 next
               end
         { id: user['id'],
